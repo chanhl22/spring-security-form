@@ -32,11 +32,25 @@ public class SampleController {
         return "info";
     }
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model, Principal principal) {
+//    @GetMapping("/dashboard")
+    public String dashboardV1(Model model, Principal principal) {
+        model.addAttribute("message", "Hello, " + principal.getName());
+        sampleService.dashboardV1();
+        return "dashboard";
+    }
+
+//    @GetMapping("/dashboard")
+    public String dashboardV2(Model model, Principal principal) {
         model.addAttribute("message", "Hello, " + principal.getName());
         AccountContext.setAccount(accountRepository.findByUsername(principal.getName()));
-        sampleService.dashboard();
+        sampleService.dashboardV2();
+        return "dashboard";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboardV3(Model model, Principal principal) {
+        model.addAttribute("message", "Hello, " + principal.getName());
+        sampleService.dashboardV3();
         return "dashboard";
     }
 
