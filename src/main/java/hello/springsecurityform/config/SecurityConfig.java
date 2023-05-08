@@ -66,7 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .accessDecisionManager(accessDecisionManager())
                 .expressionHandler(expressionHandler());
 
-        http.formLogin();
+        http.formLogin()
+                .loginPage("/login")
+                .permitAll();
         http.httpBasic();
 //        http.csrf().disable();
 
