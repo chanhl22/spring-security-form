@@ -1,5 +1,7 @@
 package hello.springsecurityform.config;
 
+import hello.springsecurityform.account.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -32,6 +34,9 @@ import java.util.List;
 @EnableWebSecurity
 @Order(Ordered.LOWEST_PRECEDENCE - 100)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    AccountService accountService;
 
     public AccessDecisionManager accessDecisionManager() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
@@ -77,6 +82,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/login")
                 .permitAll();
+
+        http.rememberMe()
+                .userDetailsService(accountService)
+                .key("remember-me-sample");
+
         http.httpBasic();
 //        http.csrf().disable();
 
