@@ -1,9 +1,13 @@
 package hello.springsecurityform.form;
 
+import hello.springsecurityform.account.Account;
 import hello.springsecurityform.account.AccountContext;
 import hello.springsecurityform.account.AccountRepository;
+import hello.springsecurityform.account.UserAccount;
+import hello.springsecurityform.common.CurrentUser;
 import hello.springsecurityform.common.SecurityLogger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +24,32 @@ public class SampleController {
 
     @Autowired AccountRepository accountRepository;
 
+//    @GetMapping("/")
+//    public String index(Model model, @AuthenticationPrincipal UserAccount userAccount) {
+//        if (userAccount == null) {
+//            model.addAttribute("message", "Hello Spring Security");
+//        } else {
+//            model.addAttribute("message", "Hello, " + userAccount.getUsername());
+//        }
+//        return "index";
+//    }
+
+//    @GetMapping("/")
+//    public String index(Model model, @AuthenticationPrincipal(expression = "#this == 'anonymousUser' ? null : account") Account account) {
+//        if (account == null) {
+//            model.addAttribute("message", "Hello Spring Security");
+//        } else {
+//            model.addAttribute("message", "Hello, " + account.getUsername());
+//        }
+//        return "index";
+//    }
+
     @GetMapping("/")
-    public String index(Model model, Principal principal) {
-        if (principal == null) {
+    public String index(Model model, @CurrentUser Account account) {
+        if (account == null) {
             model.addAttribute("message", "Hello Spring Security");
         } else {
-            model.addAttribute("message", "Hello, " + principal.getName());
+            model.addAttribute("message", "Hello, " + account.getUsername());
         }
         return "index";
     }

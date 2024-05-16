@@ -11,9 +11,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService implements UserDetailsService {
 
-    @Autowired AccountRepository accountRepository;
+    @Autowired
+    AccountRepository accountRepository;
 
-    @Autowired PasswordEncoder passwordEncoder;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+//    @Override
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//        Account account = accountRepository.findByUsername(username);
+//        if (account == null) {
+//            throw new UsernameNotFoundException(username);
+//        }
+//
+//        return User.builder()
+//                .username(account.getUsername())
+//                .password(account.getPassword())
+//                .roles(account.getRole())
+//                .build();
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -21,12 +37,7 @@ public class AccountService implements UserDetailsService {
         if (account == null) {
             throw new UsernameNotFoundException(username);
         }
-
-        return User.builder()
-                .username(account.getUsername())
-                .password(account.getPassword())
-                .roles(account.getRole())
-                .build();
+        return new UserAccount(account);
     }
 
     public Account createNew(Account account) {
