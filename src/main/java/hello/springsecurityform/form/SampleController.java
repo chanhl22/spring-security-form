@@ -4,6 +4,8 @@ import hello.springsecurityform.account.Account;
 import hello.springsecurityform.account.AccountContext;
 import hello.springsecurityform.account.AccountRepository;
 import hello.springsecurityform.account.UserAccount;
+import hello.springsecurityform.book.Book;
+import hello.springsecurityform.book.BookRepository;
 import hello.springsecurityform.common.CurrentUser;
 import hello.springsecurityform.common.SecurityLogger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 @Controller
@@ -23,6 +26,9 @@ public class SampleController {
     @Autowired SampleService sampleService;
 
     @Autowired AccountRepository accountRepository;
+
+    @Autowired
+    BookRepository bookRepository;
 
 //    @GetMapping("/")
 //    public String index(Model model, @AuthenticationPrincipal UserAccount userAccount) {
@@ -91,6 +97,7 @@ public class SampleController {
     @GetMapping("/user")
     public String user(Model model, Principal principal) {
         model.addAttribute("message", "Hello User, " + principal.getName());
+        model.addAttribute("books", bookRepository.findCurrentUserBooks());
         return "user";
     }
 
