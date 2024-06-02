@@ -30,7 +30,8 @@ public class SampleServiceTest {
     @Test
     public void dashboardV3() {
         Account account = new Account();
-        account.setRole("USER");
+//        account.setRole("USER");
+        account.setRole("ADMIN");
         account.setUsername("hello");
         account.setPassword("123");
         accountService.createNew(account);
